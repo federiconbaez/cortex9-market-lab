@@ -1,0 +1,22 @@
+# Fully offline run on deterministic synthetic data (regime-switching GBM).
+data:
+  source: synthetic
+  symbols: [SYN1/USD, SYN2/USD]
+  timeframe: 1h
+  synthetic_bars: 3000
+  synthetic_model: regime
+
+strategies:
+  - name: mean_reversion
+  - name: momentum
+  - name: breakout
+
+costs: {fee_bps: 10, slippage_bps: 5}  # optimista: OKX Regular publica taker 0.35 %; ver README
+risk:
+  sizing: volatility_target
+  vol_target_annual: 0.25
+  max_symbol_exposure: 0.5
+  max_total_exposure: 1.0
+backtest:
+  seed: 7
+  output_dir: runs/backtest_synthetic

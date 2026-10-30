@@ -1,0 +1,42 @@
+# Historical backtest on public OKX candles (no API keys needed).
+data:
+  source: exchange
+  exchange: okx
+  fallback_exchanges: [binance, kraken]
+  symbols: [BTC/USDT, ETH/USDT]
+  timeframe: 1h
+  start: 2026-05-01T00:00:00Z
+  end: 2026-10-29T00:00:00Z
+  cache_path: data/ohlcv.sqlite
+  page_limit: 100
+  retry: {max_attempts: 5, base_delay_s: 1.0, max_delay_s: 30.0, jitter: 0.25}
+
+strategies:
+  - name: mean_reversion
+    params: {lookback: 48, entry_z: 2.0, exit_z: 0.0}
+  - name: momentum
+    params: {fast: 24, slow: 96, band: 0.0}
+  - name: breakout
+    params: {entry: 48, exit: 24, atr_n: 24, atr_mult: 0.0}
+
+costs:
+  fee_bps: 10      # optimista: OKX Regular publica taker 0.35 % (okx.com/fees); ver README
+  slippage_bps: 5
+
+risk:
+  sizing: fixed_fractional
+  fraction: 0.4
+  stop_loss_pct: 0.05
+  take_profit_pct: null
+  max_symbol_exposure: 0.5
+  max_total_exposure: 1.0
+  max_drawdown_kill: 0.25
+  allow_short: false
+
+backtest:
+  initial_cash: 10000
+  seed: 42
+  output_dir: runs/backtest_okx_1h
+
+logging:
+  level: INFO

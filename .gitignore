@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Runtime data (market cache, paper state, run outputs)
+/data/
+/state/
+/runs/
+*.sqlite
+*.sqlite3
+*.db
+
+# Secrets (this project never needs API keys)
+.env
+*.key
+*.pem
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/

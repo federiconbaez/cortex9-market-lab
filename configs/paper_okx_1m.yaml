@@ -1,0 +1,42 @@
+# Paper trading on live public OKX data. Simulation only: no order is ever sent.
+data:
+  source: exchange
+  exchange: okx
+  fallback_exchanges: [binance, kraken]
+  symbols: [BTC/USDT, ETH/USDT]
+  timeframe: 1m
+  start: 2026-10-01T00:00:00Z   # unused by paper; required by the schema for exchange data
+  retry: {max_attempts: 4, base_delay_s: 1.0, max_delay_s: 15.0, jitter: 0.25}
+
+strategies:
+  - name: momentum
+    params: {fast: 5, slow: 20, band: 0.0}
+  - name: mean_reversion
+    params: {lookback: 30, entry_z: 1.5, exit_z: 0.0}
+  - name: breakout
+    params: {entry: 20, exit: 10, atr_n: 14, atr_mult: 0.0}
+
+costs: {fee_bps: 10, slippage_bps: 5}  # optimista: OKX Regular publica taker 0.35 %; ver README
+
+risk:
+  sizing: volatility_target
+  vol_target_annual: 0.30
+  vol_lookback: 60
+  stop_loss_pct: 0.01
+  take_profit_pct: 0.02
+  max_symbol_exposure: 0.5
+  max_total_exposure: 0.8
+  max_drawdown_kill: 0.05
+  allow_short: false
+
+paper:
+  timeframe: 1m
+  poll_seconds: 15
+  warmup_bars: 120
+  initial_cash: 10000
+  state_path: state/paper_okx_1m.json
+  max_consecutive_errors: 5
+
+logging:
+  level: INFO
+  file: runs/paper_okx_1m.log.jsonl
