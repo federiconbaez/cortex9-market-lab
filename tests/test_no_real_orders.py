@@ -134,6 +134,59 @@ def scan_dynamic_lookups(source: str) -> set[str]:
     return hits
 
 
+INTROSPECTION_CALLS = {"eval", "exec", "compile", "getattr_static", "__import__"}
+INTROSPECTION_ATTRS = {"__dict__", "__get__"}
+WRAPPER_CLASS = "PublicOnlyExchange"
+WRAPPER_SLOT = "_inner"
+
+# legitimate uses in the code base, listed explicitly as (file, scope, token)
+INTROSPECTION_ALLOWED = {
+    ("logging.py", "<module>", "__dict__"),  # reserved LogRecord fields
+    ("logging.py", "JsonFormatter.format", "__dict__"),  # extra fields of a LogRecord
+}
+
+
+def scan_introspection(source: str) -> set[tuple[str, str]]:
+    """(scope, token) pairs for eval/exec/compile/getattr_static/__import__ calls,
+    ``__dict__`` / ``__get__`` access, and any reference to the wrapper's private slot
+    outside ``PublicOnlyExchange``."""
+    tree = ast.parse(source)
+    docs = _docstring_ids(tree)
+    hits: set[tuple[str, str]] = set()
+
+    def visit(node: ast.AST, scope: list[str]) -> None:
+        for child in ast.iter_child_nodes(node):
+            if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                visit(child, [*scope, child.name])
+                continue
+            where = ".".join(scope) or "<module>"
+            if isinstance(child, ast.Call):
+                fn = child.func
+                name = (
+                    fn.id
+                    if isinstance(fn, ast.Name)
+                    else (fn.attr if isinstance(fn, ast.Attribute) else None)
+                )
+                if name in INTROSPECTION_CALLS:
+                    hits.add((where, name))
+            if isinstance(child, ast.Attribute) and child.attr in INTROSPECTION_ATTRS:
+                hits.add((where, child.attr))
+            inside_wrapper = bool(scope) and scope[0] == WRAPPER_CLASS
+            if not inside_wrapper and id(child) not in docs:
+                if (isinstance(child, ast.Attribute) and child.attr == WRAPPER_SLOT) or (
+                    isinstance(child, ast.Name) and child.id == WRAPPER_SLOT
+                ):
+                    hits.add((where, WRAPPER_SLOT))
+                elif isinstance(child, (ast.Constant, ast.BinOp, ast.JoinedStr)):
+                    folded = _fold(child)
+                    if folded is not None and WRAPPER_SLOT in folded:
+                        hits.add((where, WRAPPER_SLOT))
+            visit(child, scope)
+
+    visit(tree, [])
+    return hits
+
+
 def _sources() -> list[Path]:
     files = sorted(SRC.rglob("*.py"))
     assert files, "no sources found"
@@ -164,6 +217,14 @@ def test_dynamic_attribute_lookup_only_in_whitelist_path():
             assert hits == set(), f"{path.name}: dynamic lookup in {hits}"
         seen |= hits
     assert seen <= GETATTR_ALLOWED, seen - GETATTR_ALLOWED
+
+
+def test_no_introspection_outside_explicit_whitelist():
+    found = set()
+    for path in _sources():
+        for scope, token in scan_introspection(path.read_text(encoding="utf-8")):
+            found.add((path.name, scope, token))
+    assert found == INTROSPECTION_ALLOWED, found ^ INTROSPECTION_ALLOWED
 
 
 # -- mutation tests: the scanners must catch evasions ---------------------------------
@@ -204,6 +265,49 @@ def test_dynamic_lookup_scanner_flags_getattr_outside_whitelist(tmp_path):
         encoding="utf-8",
     )
     assert scan_dynamic_lookups(mod.read_text(encoding="utf-8")) == {"Sneaky.go", "other"}
+
+
+INTROSPECTION_MUTANTS = {
+    "eval": ("def f(ex):\n    return eval('ex.create_' + 'order')\n", "eval"),
+    "exec": ("def f(ex):\n    exec('ex.x()')\n", "exec"),
+    "compile": ("def f():\n    return compile('1', 'm', 'eval')\n", "compile"),
+    "getattr_static": (
+        "import inspect\ndef f(w):\n    return inspect.getattr_static(w, 'x')\n",
+        "getattr_static",
+    ),
+    "dunder_import": ("def f():\n    return __import__('os')\n", "__import__"),
+    "dict_access": ("def f(w):\n    return w.__dict__\n", "__dict__"),
+    "descriptor_get": (
+        "def f(w, t):\n    return t.__dict__['x'].__get__(w, t)\n",
+        "__get__",
+    ),
+    "inner_attr": ("def f(w):\n    return w._inner\n", "_inner"),
+    "inner_string": (
+        "def f(w):\n    return object.__getattribute__(w, '_in' + 'ner')\n",
+        "_inner",
+    ),
+    "inner_name": ("_inner = None\n", "_inner"),
+}
+
+
+@pytest.mark.parametrize("name", sorted(INTROSPECTION_MUTANTS))
+def test_introspection_scanner_flags_mutants(name, tmp_path):
+    code, token = INTROSPECTION_MUTANTS[name]
+    mod = tmp_path / f"mutant_{name}.py"
+    mod.write_text(code, encoding="utf-8")
+    tokens = {t for _, t in scan_introspection(mod.read_text(encoding="utf-8"))}
+    assert token in tokens, f"scanner missed {name}: {tokens}"
+
+
+def test_inner_slot_allowed_only_inside_wrapper_class():
+    inside = (
+        "class PublicOnlyExchange:\n"
+        "    def __init__(self, i):\n"
+        "        object.__setattr__(self, '_inner', i)\n"
+    )
+    outside = "class Other:\n    def g(self, w):\n        return w._inner\n"
+    assert scan_introspection(inside) == set()
+    assert scan_introspection(outside) == {("Other.g", "_inner")}
 
 
 def test_scanner_ignores_docstrings_but_not_code():

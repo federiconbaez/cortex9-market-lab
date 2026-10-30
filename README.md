@@ -30,8 +30,13 @@ is called. **English section below.**
 >    el cliente solo puede llamar `load_markets`, `fetch_ohlcv` y `fetch_ticker`
 >    (lista blanca en `data/exchange.py`), la instancia de ccxt queda privada dentro de un
 >    envoltorio que rechaza cualquier otro atributo, y `tests/test_no_real_orders.py` lo
->    verifica (incluye pruebas de mutación con camelCase y `getattr` con strings
->    concatenados).
+>    verifica (incluye pruebas de mutación con camelCase, `getattr` con strings
+>    concatenados, `eval`/`exec`/`compile`, `__dict__` y acceso al slot privado).
+>    **Ojo:** ese test detecta patrones accidentales u obvios; **no** protege contra
+>    ofuscación deliberada (alguien que quiera saltearlo puede hacerlo). La barrera real
+>    es otra: el código no tiene ni lee credenciales y solo llama endpoints públicos, así
+>    que aunque se agregara una llamada de trading, el exchange la rechazaría por falta de
+>    autenticación.
 >
 > **EN — Read before use**
 > 1. **No edge has been demonstrated.** In the real backtest below all three strategies
@@ -51,7 +56,12 @@ is called. **English section below.**
 >    `load_markets`, `fetch_ohlcv` and `fetch_ticker` (whitelist in `data/exchange.py`), the
 >    ccxt instance is kept private inside a wrapper that refuses any other attribute, and
 >    `tests/test_no_real_orders.py` checks it (including mutation tests with camelCase
->    names and string-concatenated `getattr`).
+>    names, string-concatenated `getattr`, `eval`/`exec`/`compile`, `__dict__` and access
+>    to the private slot). **Note:** that test catches accidental or obvious patterns; it
+>    does **not** defend against deliberate obfuscation (someone determined to bypass it
+>    can). The real barrier is that the code holds and reads no credentials and only calls
+>    public endpoints, so even if a trading call were added the exchange would reject it as
+>    unauthenticated.
 
 > **ES** primero · **EN** abajo
 
