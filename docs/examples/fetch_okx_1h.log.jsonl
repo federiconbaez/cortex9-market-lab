@@ -1,0 +1,3 @@
+{"ts": "2026-10-30T04:40:18.221005+00:00", "level": "INFO", "logger": "cortex9_market_lab.data.exchange", "event": "connected", "exchange": "okx"}
+{"ts": "2026-10-30T04:40:27.117033+00:00", "level": "INFO", "logger": "cortex9_market_lab.data.loader", "event": "fetched", "symbol": "BTC/USDT", "bars": 4344, "exchange": "okx"}
+{"ts": "2026-10-30T04:40:35.692581+00:00", "level": "INFO", "logger": "cortex9_market_lab.data.loader", "event": "fetched", "symbol": "ETH/USDT", "bars": 4344, "exchange": "okx"}

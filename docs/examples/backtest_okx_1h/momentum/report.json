@@ -1,0 +1,39 @@
+{
+  "strategy": {
+    "name": "momentum",
+    "params": {
+      "fast": 24,
+      "slow": 96,
+      "band": 0.0
+    }
+  },
+  "metrics": {
+    "start_equity": 10000.0,
+    "end_equity": 9055.512493105094,
+    "total_return": -0.09444875068949055,
+    "cagr": -0.1814741735845533,
+    "sharpe": -0.8061081264739324,
+    "sortino": -1.2195418646647083,
+    "max_drawdown": -0.16146741665452113,
+    "exposure": 0.5255524861878453,
+    "fees_paid": 500.47795347238076,
+    "n_trades": 66.0,
+    "win_rate": 0.16666666666666666,
+    "profit_factor": 0.7540392296827918,
+    "avg_trade_pnl": -14.31041677113506
+  },
+  "benchmark_buy_and_hold": {
+    "BTC/USDT": 0.06392364421531416,
+    "ETH/USDT": 0.044031501637023185,
+    "equal_weight": 0.05397757292616867
+  },
+  "halted_at": null,
+  "counters": {
+    "counters": {
+      "exit.signal": 62.0,
+      "exit.stop_loss": 2.0,
+      "exit.end_of_data": 2.0
+    },
+    "gauges": {}
+  }
+}

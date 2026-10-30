@@ -1,0 +1,83 @@
+{
+  "data_source": "okx:public-ohlcv",
+  "symbols": [
+    "BTC/USDT",
+    "ETH/USDT"
+  ],
+  "timeframe": "1h",
+  "first_bar": "2026-05-01T00:00:00+00:00",
+  "last_bar": "2026-10-28T23:00:00+00:00",
+  "bars_per_symbol": {
+    "BTC/USDT": 4344,
+    "ETH/USDT": 4344
+  },
+  "costs": {
+    "fee_bps": 10.0,
+    "slippage_bps": 5.0
+  },
+  "risk": {
+    "sizing": "fixed_fractional",
+    "fraction": 0.4,
+    "vol_target_annual": 0.2,
+    "vol_lookback": 48,
+    "stop_loss_pct": 0.05,
+    "take_profit_pct": null,
+    "max_symbol_exposure": 0.5,
+    "max_total_exposure": 1.0,
+    "max_drawdown_kill": 0.25,
+    "allow_short": false
+  },
+  "initial_cash": 10000.0,
+  "results": {
+    "mean_reversion": {
+      "start_equity": 10000.0,
+      "end_equity": 9753.825283901082,
+      "total_return": -0.024617471609891806,
+      "cagr": -0.04906563530746144,
+      "sharpe": -0.24054988645795503,
+      "sortino": -0.3405429405028655,
+      "max_drawdown": -0.08921505430824272,
+      "exposure": 0.343232044198895,
+      "fees_paid": 668.7460645023549,
+      "n_trades": 85.0,
+      "win_rate": 0.6,
+      "profit_factor": 0.9007232080991389,
+      "avg_trade_pnl": -2.8961731305754235
+    },
+    "momentum": {
+      "start_equity": 10000.0,
+      "end_equity": 9055.512493105094,
+      "total_return": -0.09444875068949055,
+      "cagr": -0.1814741735845533,
+      "sharpe": -0.8061081264739324,
+      "sortino": -1.2195418646647083,
+      "max_drawdown": -0.16146741665452113,
+      "exposure": 0.5255524861878453,
+      "fees_paid": 500.47795347238076,
+      "n_trades": 66.0,
+      "win_rate": 0.16666666666666666,
+      "profit_factor": 0.7540392296827918,
+      "avg_trade_pnl": -14.31041677113506
+    },
+    "breakout": {
+      "start_equity": 10000.0,
+      "end_equity": 8513.235218398859,
+      "total_return": -0.1486764781601141,
+      "cagr": -0.2773939757186237,
+      "sharpe": -1.6148509013575334,
+      "sortino": -2.4609944400269064,
+      "max_drawdown": -0.22065016657876957,
+      "exposure": 0.412292817679558,
+      "fees_paid": 477.8442878572343,
+      "n_trades": 64.0,
+      "win_rate": 0.234375,
+      "profit_factor": 0.6122495129216368,
+      "avg_trade_pnl": -23.230699712517882
+    }
+  },
+  "benchmark_buy_and_hold": {
+    "BTC/USDT": 0.06392364421531416,
+    "ETH/USDT": 0.044031501637023185,
+    "equal_weight": 0.05397757292616867
+  }
+}

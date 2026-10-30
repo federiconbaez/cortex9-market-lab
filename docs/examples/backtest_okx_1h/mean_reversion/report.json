@@ -1,0 +1,38 @@
+{
+  "strategy": {
+    "name": "mean_reversion",
+    "params": {
+      "lookback": 48,
+      "entry_z": 2.0,
+      "exit_z": 0.0
+    }
+  },
+  "metrics": {
+    "start_equity": 10000.0,
+    "end_equity": 9753.825283901082,
+    "total_return": -0.024617471609891806,
+    "cagr": -0.04906563530746144,
+    "sharpe": -0.24054988645795503,
+    "sortino": -0.3405429405028655,
+    "max_drawdown": -0.08921505430824272,
+    "exposure": 0.343232044198895,
+    "fees_paid": 668.7460645023549,
+    "n_trades": 85.0,
+    "win_rate": 0.6,
+    "profit_factor": 0.9007232080991389,
+    "avg_trade_pnl": -2.8961731305754235
+  },
+  "benchmark_buy_and_hold": {
+    "BTC/USDT": 0.06392364421531416,
+    "ETH/USDT": 0.044031501637023185,
+    "equal_weight": 0.05397757292616867
+  },
+  "halted_at": null,
+  "counters": {
+    "counters": {
+      "exit.signal": 78.0,
+      "exit.stop_loss": 7.0
+    },
+    "gauges": {}
+  }
+}

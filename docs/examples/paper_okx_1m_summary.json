@@ -1,0 +1,26 @@
+{
+  "stop_reason": "duration",
+  "exchange": "okx",
+  "resumed": false,
+  "iterations": 10,
+  "start_equity": 10000.0,
+  "last_equity": 9976.664450234734,
+  "open_positions": {
+    "ETH/USDT": 1.3332453031519038
+  },
+  "closed_trades": 1,
+  "fills": 3,
+  "fees_paid": 12.98998486563032,
+  "halted": false,
+  "last_signal": {
+    "BTC/USDT": -1,
+    "ETH/USDT": 1
+  },
+  "counters": {
+    "polls": 10.0,
+    "bars.closed": 6.0,
+    "entries": 2.0,
+    "exit.signal": 1.0
+  },
+  "state_path": "state/paper_okx_1m.json"
+}

@@ -1,0 +1,4 @@
+{"ts": "2026-10-30T04:54:19.351004+00:00", "level": "INFO", "logger": "cortex9_market_lab.data.exchange", "event": "connected", "exchange": "okx"}
+{"ts": "2026-10-30T04:54:19.426624+00:00", "level": "INFO", "logger": "cortex9_market_lab.backtest", "event": "backtest done", "strategy": "mean_reversion", "bars": 4344, "trades": 85}
+{"ts": "2026-10-30T04:54:19.487853+00:00", "level": "INFO", "logger": "cortex9_market_lab.backtest", "event": "backtest done", "strategy": "momentum", "bars": 4344, "trades": 66}
+{"ts": "2026-10-30T04:54:19.565200+00:00", "level": "INFO", "logger": "cortex9_market_lab.backtest", "event": "backtest done", "strategy": "breakout", "bars": 4344, "trades": 64}

@@ -1,0 +1,47 @@
+{
+  "data_source": "synthetic:regime:seed=7",
+  "symbols": [
+    "SYN1/USD",
+    "SYN2/USD"
+  ],
+  "timeframe": "1h",
+  "first_bar": "2024-01-01T00:00:00+00:00",
+  "last_bar": "2024-05-04T23:00:00+00:00",
+  "bars_per_symbol": {
+    "SYN1/USD": 3000,
+    "SYN2/USD": 3000
+  },
+  "costs": {
+    "fee_bps": 10.0,
+    "slippage_bps": 5.0
+  },
+  "risk": {
+    "sizing": "volatility_target",
+    "fraction": 0.25,
+    "vol_target_annual": 0.25,
+    "vol_lookback": 48,
+    "stop_loss_pct": 0.05,
+    "take_profit_pct": null,
+    "max_symbol_exposure": 0.5,
+    "max_total_exposure": 1.0,
+    "max_drawdown_kill": 0.25,
+    "allow_short": false
+  },
+  "initial_cash": 10000.0
+}
+
+| metric | mean_reversion | momentum | breakout |
+|---|---:|---:|---:|
+| total_return | -25.16% | -12.23% | -11.10% |
+| cagr | -57.14% | -31.71% | -29.09% |
+| sharpe | -5.604 | -1.321 | -1.453 |
+| sortino | -7.282 | -1.837 | -1.983 |
+| max_drawdown | -25.50% | -20.96% | -17.06% |
+| win_rate | 43.64% | 15.15% | 28.57% |
+| profit_factor | 0.372 | 0.567 | 0.617 |
+| exposure | 38.17% | 57.13% | 45.00% |
+| n_trades | 55 | 33 | 35 |
+| fees_paid | 350.468 | 259.013 | 292.563 |
+| end_equity | 7483.690 | 8776.689 | 8890.494 |
+
+buy & hold (no costs, reference only): SYN1/USD=-60.84%, SYN2/USD=-36.50%, equal_weight=-48.67%

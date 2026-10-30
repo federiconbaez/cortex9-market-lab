@@ -1,0 +1,40 @@
+{
+  "strategy": {
+    "name": "breakout",
+    "params": {
+      "entry": 48,
+      "exit": 24,
+      "atr_n": 24,
+      "atr_mult": 0.0
+    }
+  },
+  "metrics": {
+    "start_equity": 10000.0,
+    "end_equity": 8513.235218398859,
+    "total_return": -0.1486764781601141,
+    "cagr": -0.2773939757186237,
+    "sharpe": -1.6148509013575334,
+    "sortino": -2.4609944400269064,
+    "max_drawdown": -0.22065016657876957,
+    "exposure": 0.412292817679558,
+    "fees_paid": 477.8442878572343,
+    "n_trades": 64.0,
+    "win_rate": 0.234375,
+    "profit_factor": 0.6122495129216368,
+    "avg_trade_pnl": -23.230699712517882
+  },
+  "benchmark_buy_and_hold": {
+    "BTC/USDT": 0.06392364421531416,
+    "ETH/USDT": 0.044031501637023185,
+    "equal_weight": 0.05397757292616867
+  },
+  "halted_at": null,
+  "counters": {
+    "counters": {
+      "exit.signal": 59.0,
+      "exit.stop_loss": 3.0,
+      "exit.end_of_data": 2.0
+    },
+    "gauges": {}
+  }
+}

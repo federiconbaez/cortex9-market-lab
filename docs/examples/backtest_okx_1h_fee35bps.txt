@@ -1,0 +1,47 @@
+{
+  "data_source": "okx:public-ohlcv",
+  "symbols": [
+    "BTC/USDT",
+    "ETH/USDT"
+  ],
+  "timeframe": "1h",
+  "first_bar": "2026-05-01T00:00:00+00:00",
+  "last_bar": "2026-10-28T23:00:00+00:00",
+  "bars_per_symbol": {
+    "BTC/USDT": 4344,
+    "ETH/USDT": 4344
+  },
+  "costs": {
+    "fee_bps": 35.0,
+    "slippage_bps": 5.0
+  },
+  "risk": {
+    "sizing": "fixed_fractional",
+    "fraction": 0.4,
+    "vol_target_annual": 0.2,
+    "vol_lookback": 48,
+    "stop_loss_pct": 0.05,
+    "take_profit_pct": null,
+    "max_symbol_exposure": 0.5,
+    "max_total_exposure": 1.0,
+    "max_drawdown_kill": 0.25,
+    "allow_short": false
+  },
+  "initial_cash": 10000.0
+}
+
+| metric | mean_reversion | momentum | breakout |
+|---|---:|---:|---:|
+| total_return | -17.74% | -20.67% | -24.13% |
+| cagr | -32.57% | -37.34% | -42.73% |
+| sharpe | -2.370 | -2.005 | -2.811 |
+| sortino | -3.248 | -2.995 | -4.203 |
+| max_drawdown | -18.76% | -22.02% | -25.36% |
+| win_rate | 45.88% | 15.15% | 19.35% |
+| profit_factor | 0.411 | 0.550 | 0.447 |
+| exposure | 34.32% | 52.56% | 40.84% |
+| n_trades | 85 | 66 | 62 |
+| fees_paid | 2155.009 | 1643.058 | 1530.855 |
+| end_equity | 8226.461 | 7932.790 | 7587.191 |
+
+buy & hold (no costs, reference only): BTC/USDT=6.39%, ETH/USDT=4.40%, equal_weight=5.40%
